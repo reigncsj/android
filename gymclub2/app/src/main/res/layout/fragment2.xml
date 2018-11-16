@@ -24,9 +24,9 @@
             android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="请输入课程或老师"
-            android:inputType="textEmailAddress"
+            android:queryHint="请输入课程或老师"
+            android:iconifiedByDefault="false"
+            android:inputType="text"
             android:maxLines="1"
             android:singleLine="true" />
 
@@ -36,6 +36,7 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
         android:id="@+id/courseList"/>
 
 
