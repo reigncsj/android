@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private Fragment1 fragment1;
     private Fragment2 fragment2;
     private Fragment3 fragment3;
+    private Fragment4 fragment4;
     private Fragment[] fragments;
     private int lastfragment;
 
@@ -55,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
                         lastfragment=2;
                     }
                     return true;
+                case R.id.navigation_teacher:
+                    if(lastfragment!=3)
+                    {
+                        switchFragment(lastfragment,3);
+                        lastfragment=3;
+
+                    }
+                    return true;
             }
             return false;
         }
@@ -69,10 +78,11 @@ public class MainActivity extends AppCompatActivity {
         fragment1 = new Fragment1();
         fragment2 = new Fragment2();
         fragment3 = new Fragment3();
+        fragment4 = new Fragment4();
         Bundle bundle = new Bundle();
         bundle.putString("name",str);
         fragment1.setArguments(bundle);
-        fragments = new Fragment[]{fragment1,fragment2,fragment3};
+        fragments = new Fragment[]{fragment1,fragment2,fragment3,fragment4};
         setContentView(R.layout.activity_main);
         mTextMessage = (TextView) findViewById(R.id.message);
         getSupportFragmentManager().beginTransaction().replace(R.id.mainview,fragment1).show(fragment1).commit();

@@ -24,7 +24,7 @@
             android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:queryHint="请输入课程或老师"
+            android:queryHint="请输入课程"
             android:iconifiedByDefault="false"
             android:inputType="text"
             android:maxLines="1"

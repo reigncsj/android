@@ -1,26 +1,24 @@
 package com.example.csj.gymclub.adapter;
 
 import android.content.Context;
-
-
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import com.example.csj.gymclub.R;
 import com.example.csj.gymclub.bean.Course;
+import com.example.csj.gymclub.bean.Teacher;
 
 import java.util.ArrayList;
 
-public class CourseAdapter extends RecyclerView.Adapter<MyViewHolder> implements View.OnClickListener {
+public class TeacherAdapter extends RecyclerView.Adapter<MyViewHolder> implements View.OnClickListener {
     private Context mContext;
-    ArrayList<Course> mlist;
+    ArrayList<Teacher> mlist;
     private RecyclerViewOnItemClickListener mClickListener;
 
 
-    public CourseAdapter(Context context, ArrayList<Course> list) {
+    public TeacherAdapter(Context context, ArrayList<Teacher> list) {
         this.mContext = context;
         this.mlist=list;
     }
@@ -44,8 +42,8 @@ public class CourseAdapter extends RecyclerView.Adapter<MyViewHolder> implements
 
     @Override
     public void onBindViewHolder(MyViewHolder myViewHolder, int position) {
-        myViewHolder.tv1.setText((String)mlist.get(position).getTitle());
-        myViewHolder.tv2.setText((String)mlist.get(position).getContent());
+        myViewHolder.tv1.setText((String)mlist.get(position).getName());
+        myViewHolder.tv2.setText((String)mlist.get(position).getIntroduce());
         myViewHolder.iv.setImageResource((int)mlist.get(position).getImageId());
         myViewHolder.root.setTag(position);
         /*
@@ -59,7 +57,6 @@ public class CourseAdapter extends RecyclerView.Adapter<MyViewHolder> implements
         }
         */
     }
-
     @Override
     public void onClick(View v) {
         if (mClickListener != null) {
@@ -69,4 +66,3 @@ public class CourseAdapter extends RecyclerView.Adapter<MyViewHolder> implements
 
     }
 }
-

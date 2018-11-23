@@ -11,23 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.csj.gymclub.R;
-import com.example.csj.gymclub.adapter.CourseAdapter;
 import com.example.csj.gymclub.adapter.RecyclerViewOnItemClickListener;
+import com.example.csj.gymclub.adapter.TeacherAdapter;
 import com.example.csj.gymclub.bean.Course;
+import com.example.csj.gymclub.bean.Teacher;
 
 import java.util.ArrayList;
 
-/**
- * Created by IT-CTY on 2018/4/25.
- */
-
-public class Fragment2 extends Fragment {
+public class Fragment4 extends Fragment {
     private RecyclerView rec;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment2,container,false);
-        rec=(RecyclerView)view.findViewById(R.id.courseList);
+        View view=inflater.inflate(R.layout.fragment4,container,false);
+        rec=(RecyclerView)view.findViewById(R.id.TeacherList);
         return view;
     }
 
@@ -36,28 +33,29 @@ public class Fragment2 extends Fragment {
         super.onActivityCreated(savedInstanceState);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this.getActivity());
         rec.setLayoutManager(layoutManager);
-        final ArrayList<Course> list=initCourse();
-        CourseAdapter adapter=new CourseAdapter(this.getContext(),list);
+        final ArrayList<Teacher> list=initCourse();
 
+        TeacherAdapter adapter=new TeacherAdapter(this.getContext(),list);
         adapter.setOnItemClickListener(new RecyclerViewOnItemClickListener(){
             @Override
             public void onItemClick(View view, int postion) {
-                Course course=list.get(postion);
-                Intent i = new Intent(getContext(), VideoActivity.class);
-                i.putExtra("title",course.getTitle());
-                i.putExtra("url",course.getUrl());
+                Teacher teacher=list.get(postion);
+                Intent i = new Intent(getContext(), TeacherActivity.class);
+                i.putExtra("name",teacher.getName());
+                i.putExtra("id",teacher.getid());
+                i.putExtra("img",teacher.getImageId());
                 startActivity(i);
             }
         });
         rec.setAdapter(adapter);
     }
 
-    private ArrayList<Course> initCourse(){
-        ArrayList<Course> list = new ArrayList<Course>();
-        list.add(new Course("一小时跑步","让全身都动起来",R.mipmap.paobu,"http://39.107.73.232:8080/video/download?name=1.mkv"));
-        list.add(new Course("健身训练","让你的身体壮起来",R.mipmap.jianshen,"http://39.107.73.232:8080/video/download?name=12.mkv"));
-        list.add(new Course("瑜伽练习","让你的身体美起来",R.mipmap.yujia,"http://39.107.73.232:8080/video/download?name=2.mkv"));
+    private ArrayList<Teacher> initCourse(){
+        ArrayList<Teacher> list = new ArrayList<Teacher>();
+        list.add(new Teacher("周杰伦 ","听妈妈的话,锻炼身体",R.mipmap.zjl,1));
+        list.add(new Teacher("汪峰","在训练房里,一起摇摆",R.mipmap.wf,2));
+        list.add(new Teacher("刘诗诗","在舞蹈中,成为梦中的若曦",R.mipmap.lss,3));
+        list.add(new Teacher("庾澄庆","让你一次跑个够",R.mipmap.ycq,4));
         return  list;
     }
 }
-

@@ -4,11 +4,22 @@ public class Course {
     private String title;
     private String content;
     private int imageId;
+    private String url;
 
-    public Course(String title,String content,int imageId) {
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Course(String title, String content, int imageId, String url) {
         this.title=title;
         this.content=content;
         this.imageId = imageId;
+        this.url=url;
+
     }
 
     @Override

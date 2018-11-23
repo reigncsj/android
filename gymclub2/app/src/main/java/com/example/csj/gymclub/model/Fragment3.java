@@ -42,12 +42,12 @@ public class Fragment3 extends Fragment {
 
     private ArrayList<Course> initCourse(){
         ArrayList<Course> list = new ArrayList<Course>();
-        list.add(new Course("爆炸新闻","著名训练师加入我APP",R.mipmap.news));
-        list.add(new Course("爆炸新闻","著名训练师加入我APP",R.mipmap.news));
-        list.add(new Course("爆炸新闻","著名训练师加入我APP",R.mipmap.news));
-        list.add(new Course("爆炸新闻","著名训练师加入我APP",R.mipmap.news));
-        list.add(new Course("爆炸新闻","著名训练师加入我APP",R.mipmap.news));
-        list.add(new Course("爆炸新闻","著名训练师加入我APP",R.mipmap.news));
+        list.add(new Course("爆炸新闻","著名训练师加入我APP",R.mipmap.news,""));
+        list.add(new Course("爆炸新闻","著名训练师加入我APP",R.mipmap.news,""));
+        list.add(new Course("爆炸新闻","著名训练师加入我APP",R.mipmap.news,""));
+        list.add(new Course("爆炸新闻","著名训练师加入我APP",R.mipmap.news,""));
+        list.add(new Course("爆炸新闻","著名训练师加入我APP",R.mipmap.news,""));
+        list.add(new Course("爆炸新闻","著名训练师加入我APP",R.mipmap.news,""));
         return  list;
     }
 }
