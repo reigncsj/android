@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/course"
-    android:clickable="true"
-    android:focusable="true"
+    android:descendantFocusability="blocksDescendants"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="7dp"
@@ -13,7 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:clickable="true"
+        android:clickable="false"
         android:foreground="?android:attr/selectableItemBackgroundBorderless"
         >
 
@@ -23,12 +22,14 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:scaleType="centerCrop"
+            android:clickable="false"
            />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:clickable="false">
 
             <TextView
                 android:id="@+id/c_item1"
@@ -37,8 +38,11 @@
                 android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="这里是CardView"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="16sp"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:clickable="false"
+                />
 
             <TextView
                 android:id="@+id/c_item2"
@@ -46,7 +50,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="炫酷的效果嗨起来" />
+                android:clickable="false"
+                android:text="炫酷的效果嗨起来"
+                />
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

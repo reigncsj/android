@@ -1,28 +1,26 @@
 package com.example.csj.gymclub.adapter;
 
 import android.content.Context;
-
-
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import com.example.csj.gymclub.R;
-import com.example.csj.gymclub.bean.Course;
+import com.example.csj.gymclub.bean.ArticleItem;
+
 
 import java.util.ArrayList;
 
-public class CourseAdapter extends RecyclerView.Adapter<MyViewHolder> implements View.OnClickListener {
+public class ArticleItemAdapter extends RecyclerView.Adapter<MyViewHolder> implements View.OnClickListener {
     private Context mContext;
-    ArrayList<Course> mlist;
+    ArrayList<ArticleItem> mlist;
     private RecyclerViewOnItemClickListener mClickListener;
 
 
-    public CourseAdapter(Context context, ArrayList<Course> list) {
+    public ArticleItemAdapter(Context context, ArrayList<ArticleItem> list) {
         this.mContext = context;
-        this.mlist=list;
+        this.mlist = list;
     }
 
     @Override
@@ -32,7 +30,7 @@ public class CourseAdapter extends RecyclerView.Adapter<MyViewHolder> implements
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int arg1) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.course_item, parent,false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.course_item, parent, false);
         MyViewHolder holder = new MyViewHolder(view);
         view.setOnClickListener(this);
         return holder;
@@ -44,9 +42,9 @@ public class CourseAdapter extends RecyclerView.Adapter<MyViewHolder> implements
 
     @Override
     public void onBindViewHolder(MyViewHolder myViewHolder, int position) {
-        myViewHolder.tv1.setText((String)mlist.get(position).getTitle());
-        myViewHolder.tv2.setText((String)mlist.get(position).getContent());
-        myViewHolder.iv.setImageResource((int)mlist.get(position).getImageId());
+        myViewHolder.tv1.setText((String) mlist.get(position).getTitle());
+        myViewHolder.tv2.setText((String) mlist.get(position).getTime());
+        myViewHolder.iv.setImageResource((int) mlist.get(position).getImageid());
         myViewHolder.root.setTag(position);
         /*
         if (mClickListener != null) {
@@ -68,5 +66,6 @@ public class CourseAdapter extends RecyclerView.Adapter<MyViewHolder> implements
         }
 
     }
-}
 
+
+}
