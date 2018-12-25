@@ -18,5 +18,15 @@
     <string name="title_activity_main"></string>
     <string name="title_home">用户</string>
     <string name="title_dashboard">课程</string>
-    <string name="title_notifications">新闻</string>
+    <string name="title_notifications">文章</string>
+    <string name="title_teacher">教练</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="teacher_name_title">  教练名：</string>
+    <string name="teacher_course_title">主教课程：</string>
+    <string name="introduction">出道多年，在娱乐界摸爬滚打多年，获得无数惊人的奖项，是粉丝中
+        最耀眼的明珠，如今对健身事业特别感兴趣，2018年加入本APP
+    </string>
+    <string name="teacher_phone">联系电话：</string>
+    <string name="teacher_email">邮箱地址：</string>
 </resources>

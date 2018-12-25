@@ -16,10 +16,19 @@ import com.example.csj.gymclub.R;
 import com.example.csj.gymclub.http.HttpCallbackListener;
 import com.example.csj.gymclub.http.HttpSettings;
 import com.example.csj.gymclub.http.HttpUtil;
+import com.tencent.connect.UserInfo;
+import com.tencent.connect.auth.QQToken;
+import com.tencent.connect.common.Constants;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+
+import static android.provider.UserDictionary.Words.APP_ID;
 
 /**
  * A login screen that offers login via email/password.
@@ -42,6 +51,8 @@ public class LoginActivity extends AppCompatActivity  {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private IUiListener iuiListener;
+    private Tencent mTencent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +65,13 @@ public class LoginActivity extends AppCompatActivity  {
 
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button qqEmailSignInButton = (Button) findViewById(R.id.qq_sign_in_button);
+        qqEmailSignInButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginQQ();
+            }
+        });
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,7 +100,6 @@ public class LoginActivity extends AppCompatActivity  {
                                     JSONObject data = res.getJSONObject("data");
                                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                     i.putExtra("name", data.getString("name"));
-                                    i.putExtra("phone", data.getString("phone"));
                                     startActivity(i);
                                 } else {
                                     Looper.prepare();
@@ -129,8 +146,88 @@ public class LoginActivity extends AppCompatActivity  {
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
+    public void LoginQQ(){
+        iuiListener=new BaseUiListener();
+        mTencent = Tencent.createInstance("101538822", this.getApplicationContext());
+        mTencent.login(LoginActivity.this,"all", iuiListener);
+    }
 
+    private class BaseUiListener implements IUiListener {
+
+        @Override
+        public void onComplete(Object response) {
+            Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
+                //获得的数据是JSON格式的，获得你想获得的内容
+                //如果你不知道你能获得什么，看一下下面的LOG
+                JSONObject openidString = (JSONObject) response;
+                //access_token= ((JSONObject) response).getString("access_token");				//expires_in = ((JSONObject) response).getString("expires_in");
+            /**到此已经获得OpneID以及其他你想获得的内容了
+             QQ登录成功了，我们还想获取一些QQ的基本信息，比如昵称，头像什么的，这个时候怎么办？
+             sdk给我们提供了一个类UserInfo，这个类中封装了QQ用户的一些信息，我么可以通过这个类拿到这些信息
+             如何得到这个UserInfo类呢？  */
+            try {
+                String openID = openidString.getString("openid");
+                String accessToken = openidString.getString("access_token");
+                String expires = openidString.getString("expires_in");
+                mTencent.setOpenId(openID);
+                mTencent.setAccessToken(accessToken, expires);
+                QQToken qqToken = mTencent.getQQToken();
+                UserInfo info = new UserInfo(getApplicationContext(), qqToken);
+                info.getUserInfo(new IUiListener() {
+                    @Override
+                    public void onComplete(Object response) {
+                        JSONObject json = (JSONObject) response;
+                        if (json.has("nickname")) {
+                            try {
+                                String name = json.getString("nickname");
+                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                i.putExtra("name", name);
+                                startActivity(i);
+                            } catch (JSONException e) {
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(UiError uiError) {
+
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+
+
+                });
+            }catch (Exception e){
+
+            }
+        }
+
+        @Override
+        public void onError(UiError e) {
+            Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_SHORT).show();
+        }
+        @Override
+        public void onCancel() {
+            Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mTencent.onActivityResultData(requestCode, resultCode, data, iuiListener);
+        if (requestCode == Constants.REQUEST_API) {
+            if(requestCode == Constants.REQUEST_LOGIN){
+                Tencent.handleResultData(data, iuiListener);
+                super.onActivityResult(requestCode, resultCode, data);
+            }
+
+        }
+    }
 
 }
+
 
 

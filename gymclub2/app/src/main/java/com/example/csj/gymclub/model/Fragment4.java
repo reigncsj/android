@@ -1,6 +1,5 @@
 package com.example.csj.gymclub.model;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
@@ -14,11 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-
 import com.example.csj.gymclub.R;
 import com.example.csj.gymclub.adapter.ArticleItemAdapter;
-import com.example.csj.gymclub.adapter.CourseAdapter;
 import com.example.csj.gymclub.adapter.RecyclerViewOnItemClickListener;
+import com.example.csj.gymclub.adapter.TeacherAdapter;
 import com.example.csj.gymclub.bean.ArticleItem;
 import com.example.csj.gymclub.bean.Course;
 import com.example.csj.gymclub.bean.Teacher;
@@ -26,49 +24,48 @@ import com.example.csj.gymclub.http.HttpCallbackListener;
 import com.example.csj.gymclub.http.HttpSettings;
 import com.example.csj.gymclub.http.HttpUtil;
 import com.example.csj.gymclub.service.ContentService;
+import com.example.csj.gymclub.service.TrainerService;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by IT-CTY on 2018/4/25.
- */
-
-public class Fragment3 extends Fragment {
+public class Fragment4 extends Fragment {
     private RecyclerView rec;
-    private ArrayList<ArticleItem> list;
-    private ArticleItemAdapter aia;
+    private ArrayList<Teacher> list;
+    private TeacherAdapter aia;
     private SwipeRefreshLayout mRefreshLayout;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment3,container,false);
-        rec=(RecyclerView)view.findViewById(R.id.newList);
-        mRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.article_refresh);
+        View view=inflater.inflate(R.layout.fragment4,container,false);
+        rec=(RecyclerView)view.findViewById(R.id.TeacherList);
+        mRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.teacher_refresh);
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        LinearLayoutManager layoutManager= new LinearLayoutManager(this.getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
         rec.setLayoutManager(layoutManager);
-        list=new ArrayList<ArticleItem>();
-        aia=new ArticleItemAdapter(this.getContext(),list);
+        list=new ArrayList<Teacher>();
+        aia=new TeacherAdapter(this.getContext(),list);
+
+        TeacherAdapter adapter = new TeacherAdapter(this.getContext(), list);
+
+        rec.setAdapter(adapter);
         aia.setOnItemClickListener(new RecyclerViewOnItemClickListener() {
             @Override
             public void onItemClick(View view, int postion) {
-                ArticleItem ai = list.get(postion);
-                Intent i = new Intent(getContext(), ArticleActivity.class);
+                Teacher ai = list.get(postion);
+                Intent i = new Intent(getContext(), TeacherActivity.class);
                 i.putExtra("id", ai.getId());
-                i.putExtra("title", ai.getTitle());
-                i.putExtra("time", ai.getTime());
-                i.putExtra("author", ai.getAuthor());
+                i.putExtra("name", ai.getName());
                 i.putExtra("mode",ai.getMode());
+                i.putExtra("imageid",ai.getImageId());
                 startActivity(i);
             }
         });
@@ -82,10 +79,10 @@ public class Fragment3 extends Fragment {
                 mRefreshLayout.setRefreshing(false);
             }
         });
-
     }
+
     private void getList(){
-        HttpUtil.sendHttpGetRequestOfNone(HttpSettings.httpUrl + HttpSettings.articleUrl+"/all", new HttpCallbackListener() {
+        HttpUtil.sendHttpGetRequestOfNone(HttpSettings.httpUrl + HttpSettings.trainerUrl+"/all", new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
                 try {
@@ -95,11 +92,19 @@ public class Fragment3 extends Fragment {
                     if(result.equals("true")){
 
                         JSONArray ja=res.getJSONArray("data");
-                        final ArrayList<ArticleItem> list1 = new ArrayList<ArticleItem>();
+                        final ArrayList<Teacher> list1 = new ArrayList<Teacher>();
                         for(int i=0;i<ja.length();i++){
                             JSONObject jo=ja.getJSONObject(i);
-                            ArticleItem ai=new ArticleItem(jo.getInt("id"),jo.getString("title")
-                                    ,jo.getString("time"),jo.getString("author"),R.mipmap.yd);
+                            Teacher ai=new Teacher(jo.getInt("id"),jo.getString("name")
+                                    ,jo.getString("intro"));
+                            if (ai.getId()==1)
+                                ai.setImageId(R.mipmap.zjl);
+                            else if (ai.getId()==2)
+                                ai.setImageId(R.mipmap.wf);
+                            else if (ai.getId()==3)
+                                ai.setImageId(R.mipmap.lss);
+                            else if (ai.getId()==4)
+                                ai.setImageId(R.mipmap.ycq);
                             ai.setMode("net");
                             list1.add(ai);
 
@@ -124,11 +129,11 @@ public class Fragment3 extends Fragment {
             }
             @Override
             public void onError(Exception e) {
-                final ArrayList<ArticleItem> list1 = new ArrayList<ArticleItem>();
-                ContentService cs = new ContentService(getContext());
-                List<ArticleItem> list2=cs.findAll();
+                final ArrayList<Teacher> list1 = new ArrayList<Teacher>();
+                TrainerService cs = new TrainerService(getContext());
+                List<Teacher> list2=cs.findAll();
                 for(int i=0;i<list2.size();i++){
-                    ArticleItem ai=list2.get(i);
+                    Teacher ai=list2.get(i);
                     ai.setMode("loacl");
                     list1.add(ai);
                 }
@@ -145,6 +150,4 @@ public class Fragment3 extends Fragment {
             }
         });
     }
-
 }
-
