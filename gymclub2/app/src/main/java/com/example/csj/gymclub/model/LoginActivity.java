@@ -180,8 +180,10 @@ public class LoginActivity extends AppCompatActivity  {
                         if (json.has("nickname")) {
                             try {
                                 String name = json.getString("nickname");
+                                String url = json.getString("figureurl_qq_2");
                                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                 i.putExtra("name", name);
+                                i.putExtra("url", url);
                                 startActivity(i);
                             } catch (JSONException e) {
                             }

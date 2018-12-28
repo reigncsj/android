@@ -75,12 +75,14 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         //获取传递的值
         String str = intent.getStringExtra("name");
+        String url=intent.getStringExtra("url");
         fragment1 = new Fragment1();
         fragment2 = new Fragment2();
         fragment3 = new Fragment3();
         fragment4 = new Fragment4();
         Bundle bundle = new Bundle();
         bundle.putString("name",str);
+        bundle.putString("url",url);
         fragment1.setArguments(bundle);
         fragments = new Fragment[]{fragment1,fragment2,fragment3,fragment4};
         setContentView(R.layout.activity_main);
